@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "1833d02e-5a25-42d1-a85e-046b8a9c2747",
+		"name": "testCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25861522"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL/URI}}/posts",
+					"host": [
+						"{{baseURL/URI}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": 2,\r\n        \"title\": \"json-server\",\r\n        \"author\": \"tiger\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL/URI}}/posts",
+					"host": [
+						"{{baseURL/URI}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL/URI}}/posts/2",
+					"host": [
+						"{{baseURL/URI}}"
+					],
+					"path": [
+						"posts",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check status code is 404\",()=> {\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"any one of the following\",()=>{\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,400,404])\r",
+							"})\r",
+							"\r",
+							"pm.test(\"header check\",()=>{\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"})\r",
+							"pm.test(\"Header value check\",()=>{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"})  \r",
+							"\r",
+							"pm.test(\"This is for time \",()=>{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(50)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n     \"title\": \"PS2-server\",\r\n     \"author\": \"Mani\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL/URI}}/posts/2",
+					"host": [
+						"{{baseURL/URI}}"
+					],
+					"path": [
+						"posts",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=pm.response.json();\r",
+							"pm.test(\"This is test\",()=>{\r",
+							"    //pm.expect(jsonData).to.be.an(\"Object\")\r",
+							"    pm.expect(jsonData.employee[0].lastName).to.be.eql(\"Cruise\")\r",
+							"    pm.expect(jsonData.employee[2].firstName).to.have.includes(\"Robert\",\"Abi\")\r",
+							"})\r",
+							"var schema= {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema#\",\r",
+							"    \"$ref\": \"#/definitions/Welcome8\",\r",
+							"    \"definitions\": {\r",
+							"        \"Welcome8\": {\r",
+							"            \"type\": \"object\",\r",
+							"            \"additionalProperties\": false,\r",
+							"            \"properties\": {\r",
+							"                \"employee\": {\r",
+							"                    \"type\": \"array\",\r",
+							"                    \"items\": {\r",
+							"                        \"$ref\": \"#/definitions/Employee\"\r",
+							"                    }\r",
+							"                }\r",
+							"            },\r",
+							"            \"required\": [\r",
+							"                \"employee\"\r",
+							"            ],\r",
+							"            \"title\": \"Welcome8\"\r",
+							"        },\r",
+							"        \"Employee\": {\r",
+							"            \"type\": \"object\",\r",
+							"            \"additionalProperties\": false,\r",
+							"            \"properties\": {\r",
+							"                \"id\": {\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"format\": \"integer\"\r",
+							"                },\r",
+							"                \"firstName\": {\r",
+							"                    \"type\": \"string\"\r",
+							"                },\r",
+							"                \"lastName\": {\r",
+							"                    \"type\": \"string\"\r",
+							"                },\r",
+							"                \"photo\": {\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"format\": \"uri\",\r",
+							"                    \"qt-uri-protocols\": [\r",
+							"                        \"https\"\r",
+							"                    ],\r",
+							"                    \"qt-uri-extensions\": [\r",
+							"                        \".jpg\"\r",
+							"                    ]\r",
+							"                }\r",
+							"            },\r",
+							"            \"required\": [\r",
+							"                \"firstName\",\r",
+							"                \"id\",\r",
+							"                \"lastName\",\r",
+							"                \"photo\"\r",
+							"            ],\r",
+							"            \"title\": \"Employee\"\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"pm.test(\"This is schema validation\",()=>{\r",
+							"pm.expect(tv4.validate(jsonData,schema)).to.be.true\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Check response\",()=>{\r",
+							"    pm.expect(pm.response.code).to.have.oneOf([201,200])\r",
+							"    \r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL/URI",
+			"value": "http://localhost:3000"
+		}
+	]
+}
